@@ -13,12 +13,6 @@ export class DataTypeBoxComponent implements OnInit {
   @Input() submissionType:string;
 
   chosenformat: string;
-  compoundPdbAtom: string;
-  compoundPdbConformer: string;
-  newModel: string;
-  compoundMmcif: string;
-  compoundSdfCombined: string;
-  compoundSdfConformer: string;
   pdbid: string;
   public fdsConfig: any;
   public fdstype: any;
@@ -26,6 +20,52 @@ export class DataTypeBoxComponent implements OnInit {
   public errorEntryText: any;
   public isLoadingEntry: boolean;
   title = "PDBe Download Service";
+
+  downloadParams: any = {
+    'archive-mmCIF': {'data_format': 'cif'},
+    'archive-PDB': {'data_format': 'pdb'},
+    'assembly-all': {'preferred_only': false},
+    'assembly-preferred': {'preferred_only': true},
+    'fasta-combined': {'combined': true},
+    'fasta-individual': {'combined': false},
+    'validation-report-full': {'report_type': 'full'},
+    'validation-report-summary': {'report_type': 'summary'},
+    'compound-mmcif-combined': {'combined': true},
+    'compound-mmcif-individual': {'combined': false},
+    'model-conventional': {'atom_naming_scheme' : 'conventional', 'conformer' : 'model'},
+    'model-alternative': {'atom_naming_scheme' : 'alternative', 'conformer' : 'model'},
+    'ideal-conventional': {'atom_naming_scheme' : 'conventional', 'conformer' : 'ideal'},
+    'ideal-alternative': {'atom_naming_scheme' : 'alternative', 'conformer' : 'ideal'},
+    'model-combined': {'combined': true, 'conformer' : 'model'},
+    'model-individual': {'combined': false, 'conformer' : 'model'},
+    'ideal-combined': {'combined': true, 'conformer' : 'ideal'},
+    'ideal-individual':{'combined': false, 'conformer' : 'ideal'},
+  }
+  fdsTypeDict: any = {
+    'archive-mmCIF': 'archive',
+    'archive-PDB': 'archive',
+    'updated-mmCIF': 'updated',
+    'assembly-all': 'assemblies',
+    'assembly-preferred': 'assemblies',
+    'structure-factors': 'structure-factors',
+    'nmr-data': 'nmr-data',
+    'fasta-combined': 'sequences',
+    'fasta-individual': 'sequences',
+    'validation-report-full': 'validation-report',
+    'validation-report-summary': 'validation-report',
+    'validation-data': 'validation-data',
+    'map-coefficients': 'map-coefficients',
+    'compound-mmcif-combined': 'mmcif',
+    'compound-mmcif-individual': 'mmcif',
+    'model-conventional': 'pdb',
+    'model-alternative': 'pdb',
+    'ideal-conventional': 'pdb',
+    'ideal-alternative': 'pdb',
+    'model-combined': 'sdf',
+    'model-individual': 'sdf',
+    'ideal-combined':'sdf',
+    'ideal-individual':'sdf'
+  }
 
   constructor(private downloadService: DownloadService) {}
 
@@ -64,56 +104,10 @@ export class DataTypeBoxComponent implements OnInit {
   }
   
   getDownloadParams() {
-    let downloadParams: any = {
-      'archive-mmCIF': {'data_format': 'cif'},
-      'archive-PDB': {'data_format': 'pdb'},
-      'assembly-all': {'preferred_only': false},
-      'assembly-preferred': {'preferred_only': true},
-      'fasta-combined': {'combined': true},
-      'fasta-individual': {'combined': false},
-      'validation-report-full': {'report_type': 'full'},
-      'validation-report-summary': {'report_type': 'summary'},
-      'compound-mmcif-combined': {'combined': true},
-      'compound-mmcif-individual': {'combined': false},
-      'model-conventional': {'atom_naming_scheme' : 'conventional', 'conformer' : 'model'},
-      'model-alternative': {'atom_naming_scheme' : 'alternative', 'conformer' : 'model'},
-      'ideal-conventional': {'atom_naming_scheme' : 'conventional', 'conformer' : 'ideal'},
-      'ideal-alternative': {'atom_naming_scheme' : 'alternative', 'conformer' : 'ideal'},
-      'model-combined': {'combined': true, 'conformer' : 'model'},
-      'model-individual': {'combined': false, 'conformer' : 'model'},
-      'ideal-combined': {'combined': true, 'conformer' : 'ideal'},
-      'ideal-individual':{'combined': false, 'conformer' : 'ideal'},
-    }
-    let fdsType: any = {
-      'archive-mmCIF': 'archive',
-      'archive-PDB': 'archive',
-      'updated-mmCIF': 'updated',
-      'assembly-all': 'assemblies',
-      'assembly-preferred': 'assemblies',
-      'structure-factors': 'structure-factors',
-      'nmr-data': 'nmr-data',
-      'fasta-combined': 'sequences',
-      'fasta-individual': 'sequences',
-      'validation-report-full': 'validation-report',
-      'validation-report-summary': 'validation-report',
-      'validation-data': 'validation-data',
-      'map-coefficients': 'map-coefficients',
-      'compound-mmcif-combined': 'mmcif',
-      'compound-mmcif-individual': 'mmcif',
-      'model-conventional': 'pdb',
-      'model-alternative': 'pdb',
-      'ideal-conventional': 'pdb',
-      'ideal-alternative': 'pdb',
-      'model-combined': 'sdf',
-      'model-individual': 'sdf',
-      'ideal-combined':'sdf',
-      'ideal-individual':'sdf'
-    }
-  
-    this.fdstype = fdsType[this.chosenformat];
-    if (this.chosenformat in downloadParams) {
-      for (let key in downloadParams[this.chosenformat]) {
-        let value = downloadParams[this.chosenformat][key];
+    this.fdstype = this.fdsTypeDict[this.chosenformat];
+    if (this.chosenformat in this.downloadParams) {
+      for (let key in this.downloadParams[this.chosenformat]) {
+        let value = this.downloadParams[this.chosenformat][key];
         this.fdsConfig[key] = value
       }
     }

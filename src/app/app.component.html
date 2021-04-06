@@ -1,8 +1,6 @@
 <div class="row page-padding">
   <div class="row head-instruction"><h2>{{title}}</h2></div>
-  <div class="row head-instruction" style="margin-bottom:10px;">
-    
-</div>
+  <div class="row head-instruction" style="margin-bottom:10px;"></div>
   <div class="row head-instruction">
     <p>Use this page to download coordinate and experimental data files,
     FASTA sequence files, and ligand data files for one or many PDB entries or small molecules. Enter PDB or small
@@ -11,165 +9,11 @@
     Each download includes a list of IDs successfully downloaded named <i>contains.txt</i>.
       <br> Another file called <i>missing.txt</i> is present if any 
       <div class="tooltipped" 
-      matTooltip="Some common reasons for missing IDs are: &#13;- Obsolete IDs&#13;- Unreleased PDB ID&#13;- The user requested NMR data for non-NMR IDs&#13;- Experimental data for the requested ID was not deposited
-      "  [matTooltipPosition]="'above'" matTooltipClass="tooltip">requested IDs are missing.</div><br>
-
+      matTooltip="Some common reasons for missing IDs are: &#13;- Obsolete IDs&#13;- Unreleased PDB ID&#13;- The user requested NMR data for non-NMR IDs&#13;- Experimental data for the requested ID was not deposited"  
+      [matTooltipPosition]="'above'" matTooltipClass="tooltip">requested IDs are missing.</div><br>
   </div>
   <a name="structures"></a> 
-  <div class="format-box">
-    <mat-radio-group [(ngModel)]="chosenformat" (change)="radioEntryChange()">
-      <h3 class="format-title">Structures and sequences</h3>
-      <div class="row form-instruction">Enter a list of PDB IDs. The IDs can be separated by one of these delimiters: 
-        <div class="tooltipped" matTooltip="Example: 1cbs, 3tu8, ..."  [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">comma</div>, 
-        <div class="tooltipped" matTooltip="Example: 1cbs; 3tu8; ..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">semicolon</div>,
-        <div class="tooltipped" matTooltip="Example: 1cbs&#9;3tu8&#9;..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">tab</div>,
-        <div class="tooltipped"matTooltip="Example: 1cbs 3tu8 ..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">space</div> or
-        <div class="tooltipped"matTooltip="Example:&#13;1cbs&#13;3tu8&#13;..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">newline</div>. 
- 
-      </div>
-      <mat-form-field class="full-width">
-        <mat-label>Example: 1cbs, 3tu8, ...</mat-label>
-        <textarea matInput [(ngModel)]="pdbid"></textarea>
-      </mat-form-field>
-      <div class="row form-instruction">Select the data to download:</div>
-      <div class="flex-container">
-        <div class="box-container">
-          <div class="item-title">Coordinate data</div>
-          <div class="item-small-title">Coordinates:</div>
-          <mat-radio-button value='updated-mmCIF'>Updated mmCIF file 
-            <sup style="padding-left:5px;" 
-            matTooltip="An updated version of the PDB archive mmCIF format file. Generated with standardisation of vocabularies, and addition of connectivity information for every chemical compound present in the PDB entry."  
-            [matTooltipPosition]="'above'" matTooltipClass="tooltip"><i class="icon icon-common icon-info"></i></sup>
-          </mat-radio-button><br>
-          <mat-radio-button value='archive-mmCIF'>Archive mmCIF file</mat-radio-button><br>
-          <mat-radio-button value='archive-PDB'>PDB file</mat-radio-button><br>
-          <div class="item-small-title">Assemblies:</div>
-          <mat-radio-button value='assembly-all'>All assemblies</mat-radio-button><br>
-          <mat-radio-button value='assembly-preferred'>Preferred assemblies</mat-radio-button><br>
-          <div class="item-small-title">Experimental data:</div>
-          <mat-radio-button value='structure-factors'>Structure factors</mat-radio-button><br>
-          <mat-radio-button value='map-coefficients'>Electron density map coefficients</mat-radio-button><br>
-          <mat-radio-button value='nmr-data'>NMR data
-            <sup style="padding-left:5px;" 
-            matTooltip="Chemical shifts and NMR restraints combined in a single
-            file. This data is provided in both STAR and NMR Exchange Format (NEF) formats per PDB entry."  
-            [matTooltipPosition]="'above'" matTooltipClass="tooltip" ><i class="icon icon-common icon-info"></i></sup>
-          </mat-radio-button><br>
-        </div>
-        <div class="box-container">
-          <div class="item-title">Validation data</div>
-          <div class="item-small-title">Validation report (PDF):</div>
-          <mat-radio-button value='validation-report-full'>Full</mat-radio-button><br>
-          <mat-radio-button value='validation-report-summary'>Summary</mat-radio-button><br>
-          <div class="item-small-title">Validation data:</div>
-          <mat-radio-button value='validation-data'>Validation data (XML)</mat-radio-button><br>
-        </div>
-        <div class="box-container">
-        <div class="item-title">Sequences (FASTA)</div>
-          <div class="item-small-title">Sequences:</div>
-          <mat-radio-button value='fasta-combined'>Combined FASTA</mat-radio-button><br>
-          <mat-radio-button value='fasta-individual'>Individual FASTA</mat-radio-button><br>
-        </div>
-      </div>
-      <div class="row form-choose">
-        <div class="spinner-wrapper">
-        <button (click)="buttonClicked('entry')" class="button">Submit to download</button>
-        <div style="padding-left:35px" *ngIf=isLoadingEntry>
-          <mat-progress-spinner class="example-margin" [mode]="'indeterminate'" [diameter]="'39'"> </mat-progress-spinner>
-        </div>
-      </div>
-    </div>
-    <div class="alert alert-danger" *ngIf=errorEntryText><p><b>ERROR</b>: {{errorEntryText}}</p></div>
-    </mat-radio-group>
-  </div>
-
+  <data-type-box [submissionType]="'entry'" [descriptorType]="descriptorStructure" [dataContent]="dataContentStructure"></data-type-box>
   <a name="smallmolecules"></a> 
-  <div class="format-box">
-    <h3 class="format-title">Small molecules</h3>
-    <div class="row form-instruction">Enter a list of 
-      <div class="tooltipped" matTooltip="wwPDB CCD models"  [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">small molecule</div>
-       IDs. The IDs can be separated by one of these delimiters: 
-      <div class="tooltipped" matTooltip="Example: K, DU, HEM, ..."  [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">comma</div>, 
-      <div class="tooltipped" matTooltip="Example: K; DU; HEM; ..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">semicolon</div>,
-      <div class="tooltipped" matTooltip="Example: K DU  HEM ..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">tab</div>,
-      <div class="tooltipped"matTooltip="Example: K DU HEM ..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">space</div> or
-      <div class="tooltipped"matTooltip="Example:&#13;K&#13;DU&#13;HEM&#13;..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">newline</div>.
-
-    </div>
-      <mat-form-field class="full-width">
-        <mat-label>Example: K, DU, HEM, ...</mat-label>
-        <textarea matInput [(ngModel)]="compoundid"></textarea>
-      </mat-form-field>
-    <div class="row form-instruction">Select the data to download:</div>
-    <div class="flex-container">
-      <div class="box-container">
-        <div class="item-title">wwPDB Chemical Component Dictionary
-          <sup style="padding-left:2px;color:black;" 
-            matTooltip="Standard wwPDB CCD file with PDBeChem data enrichments. This includes ID mapping to external resources, CHEMBL synonyms, DrugBank details, 2D coordinates, RDKit-generated 3D conformer, as well as scaffold and fragment information."  
-            [matTooltipPosition]="'above'" matTooltipClass="tooltip"><i class="icon icon-common icon-info"></i></sup>
-        </div>
-        <div class="item-small-title">Type:</div>
-        <mat-radio-group [(ngModel)]="compoundMmcif" (change)="radioCompoundMmcifChange()">
-        <mat-radio-button value='compound-mmcif-combined'>Combined mmCIF</mat-radio-button><br>
-        <mat-radio-button value='compound-mmcif-individual'>Individual mmCIFs</mat-radio-button><br>
-       </mat-radio-group>
-      </div>
-      <div class="box-container">
-        <div class="item-title">Coordinates <br>(PDB format)</div>
-        <mat-radio-group [(ngModel)]="compoundPdbConformer" (change)="radioCompoundPdbChange()">
-          <div class="item-small-title">Conformer:</div>
-          <mat-radio-button value='model'>Model coordinates
-          </mat-radio-button>
-          <sup style="padding-left:5px;"
-          matTooltip="Conformer generated based on mmCIF _chem_comp_atom.model_Cartn_ item."  
-          [matTooltipPosition]="'above'" matTooltipClass="tooltip"><i class="icon icon-common icon-info"></i></sup><br>
-          <mat-radio-button value='ideal'>Ideal coordinates</mat-radio-button>
-          <sup style="padding-left:5px;"
-          matTooltip="Conformer generated based on mmCIF _chem_comp_atom.model_Cartn_ideal item."  
-          [matTooltipPosition]="'above'" matTooltipClass="tooltip"><i class="icon icon-common icon-info"></i></sup><br>
-        </mat-radio-group>
-        <mat-radio-group [(ngModel)]="compoundPdbAtom" (change)="radioCompoundPdbChange()">
-        <!--<mat-radio-group *ngIf=compoundPdbConformer [(ngModel)]="compoundPdbAtom" (change)="radioCompoundPdbChange()">-->
-
-        <div class="item-small-title">Atom naming scheme:</div>
-        <mat-radio-button value='conventional'>Conventional</mat-radio-button><br>
-        <mat-radio-button value='alternative'>Alternative</mat-radio-button>
-        <sup style="padding-left:5px;"
-            matTooltip="Use the alternative identifier for atoms, corresponding to the mmCIF _chem_comp_atom.alt_atom_id item."  
-            [matTooltipPosition]="'above'" matTooltipClass="tooltip"><i class="icon icon-common icon-info"></i></sup><br>
-      </mat-radio-group>
-      </div>
-      <div class="box-container">
-        <div class="item-title">Coordinates <br>(SDF format)</div>
-        <div class="item-small-title">Type:</div>
-        <mat-radio-group [(ngModel)]="compoundSdfCombined" (change)="radioCompoundSdfChange()">
-        <mat-radio-button value='combined'>Combined SDF</mat-radio-button><br>
-        <mat-radio-button value='individual'>Individual SDFs</mat-radio-button><br>
-      </mat-radio-group>
-        
-        <mat-radio-group [(ngModel)]="compoundSdfConformer" (change)="radioCompoundSdfChange()">
-        <!--<mat-radio-group [(ngModel)]="compoundSdfConformer" (change)="radioCompoundSdfChange()" *ngIf="compoundSdfCombined">-->
-
-          <div class="item-small-title">Conformer:</div>
-          <mat-radio-button value='model'>Model coordinates</mat-radio-button>
-        <sup style="padding-left:5px;"
-          matTooltip="Conformer generated based on mmCIF _chem_comp_atom.model_Cartn item."  
-          [matTooltipPosition]="'above'" matTooltipClass="tooltip"><i class="icon icon-common icon-info"></i></sup><br>
-        <mat-radio-button value='ideal'>Ideal coordinates</mat-radio-button>
-        <sup style="padding-left:5px;"
-          matTooltip="Conformer generated based on mmCIF _chem_comp_atom.model_Cartn_ideal item."  
-          [matTooltipPosition]="'above'" matTooltipClass="tooltip"><i class="icon icon-common icon-info"></i></sup><br>
-      </mat-radio-group>
-      </div>
-    </div>
-    <div class="row form-choose">
-      <div class="spinner-wrapper">
-      <button (click)="buttonClicked('compound')" class="button">Submit to download</button>
-      <div style="padding-left:35px" *ngIf=isLoadingCompound>
-        <mat-progress-spinner class="example-margin" [mode]="'indeterminate'" [diameter]="'39'"> </mat-progress-spinner>
-      </div>
-    </div>
-    
-    <div class="alert alert-danger" *ngIf=errorCompoundText><p><b>ERROR</b>: {{errorCompoundText}}</p></div>
-  </div>
+  <data-type-box [submissionType]="'compound'" [descriptorType]="descriptorSmallMolecules" [dataContent]="dataContentSmallMolecules"></data-type-box>
 </div>

@@ -1,0 +1,32 @@
+<div class="format-box">
+    <mat-radio-group [(ngModel)]="chosenformat">
+      <h3 class="format-title">{{this.descriptorType['boxTitle']}}</h3>
+      <div class="row form-instruction">Enter a list of {{this.descriptorType['idType']}} IDs. The IDs can be separated by one of these delimiters: 
+        <!--<div class="tooltipped" matTooltip="Example: '{{tooltipExample['comma']}}'" [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">comma</div>, -->
+        <div class="tooltipped" matTooltip="Example: {{this.descriptorType['fE']}}, {{this.descriptorType['sE']}}, ..."  [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">comma</div>, 
+        <div class="tooltipped" matTooltip="Example: {{this.descriptorType['fE']}}; {{this.descriptorType['sE']}}; ..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">semicolon</div>,
+        <div class="tooltipped" matTooltip="Example: {{this.descriptorType['fE']}}&#9;{{this.descriptorType['sE']}}&#9;..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">tab</div>,
+        <div class="tooltipped" matTooltip="Example: {{this.descriptorType['fE']}} {{this.descriptorType['sE']}} ..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">space</div> or
+        <div class="tooltipped" matTooltip="Example:&#13;{{this.descriptorType['fE']}}&#13;{{this.descriptorType['sE']}}&#13;..." [matTooltipPosition]="'above'" matTooltipClass="tooltipsmall">newline</div>. 
+      </div>
+      <mat-form-field class="full-width">
+        <mat-label>Example: {{this.descriptorType['fE']}}, {{this.descriptorType['sE']}}, ...</mat-label>
+        <textarea matInput [(ngModel)]="pdbid"></textarea>
+      </mat-form-field>
+      <div class="row form-instruction">Select the data to download:</div>
+      <div class="flex-container">
+        <div *ngFor="let item of dataContent" class="box-container">
+          <data-content [item]=item></data-content>   
+        </div>
+      </div>
+      <div class="row form-choose">
+        <div class="spinner-wrapper">
+        <button (click)="buttonClicked(submissionType)" class="button">Submit to download</button>
+        <div style="padding-left:35px" *ngIf=isLoadingEntry>
+          <mat-progress-spinner class="example-margin" [mode]="'indeterminate'" [diameter]="'39'"> </mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-danger" *ngIf=errorEntryText><p><b>ERROR</b>: {{errorEntryText}}</p></div>
+    </mat-radio-group>
+  </div>

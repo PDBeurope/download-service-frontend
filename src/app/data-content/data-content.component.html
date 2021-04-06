@@ -1,0 +1,27 @@
+<div class="item-title">{{item.title}} 
+   <sup *ngIf=item.titleText  
+   style="padding-left:2px;color:black;" 
+   matTooltip={{item.titleText}} 
+   [matTooltipPosition]="'above'" matTooltipClass="tooltip"><i class="icon icon-common icon-info"></i></sup>
+</div>
+<div *ngFor="let icontent of item.content">
+    <div class="item-small-title">{{icontent.subtitle}}:
+      <sup *ngIf=icontent.subText
+      style="padding-left:2px;color:black;"  
+      matTooltip={{icontent.subText}}
+      [matTooltipPosition]="'above'" 
+      matTooltipClass="tooltip">
+      <i class="icon icon-common icon-info"></i></sup>
+    </div>
+    <div *ngFor="let isub of icontent.subcontent; let i=index">
+      <mat-radio-button value={{icontent.values[i]}}>{{icontent.subcontent[i]}}
+        <sup *ngIf=icontent.text[i] 
+        style="padding-left:5px;" 
+        matTooltip={{icontent.text[i]}}
+        [matTooltipPosition]="'above'" 
+        matTooltipClass="tooltip" >
+        <i class="icon icon-common icon-info"></i></sup>
+      </mat-radio-button>
+    </div>
+</div>
+

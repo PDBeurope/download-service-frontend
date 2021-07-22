@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatCardModule} from '@angular/material/card';
-import {DownloadService} from './app.service';
+import { Component } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule } from '@angular/material/card';
+import { DownloadService } from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +27,14 @@ export class AppComponent {
       idType: "small molecule",
       fE: "DU",
       sE: "HEM"
+    }
+
+  descriptorSifts =
+    {
+      boxTitle: "Residue-level mapping between UniProt and PDB entries (SIFTS)",
+      idType: "PDB",
+      fE: "1cbs",
+      sE: "5hht"
     }
 
   dataContentSmallMolecules = [
@@ -170,6 +178,22 @@ export class AppComponent {
     },
   ]
 
+  dataContentSifts = [
+    {
+      'title': "Residue-level mapping",
+      'titleText': "Residue-level mapping between UniProt and PDB entries",
+      'content': [
+        {
+          'subtitle': 'SIFTS annotation',
+          'subcontent': ['XML format'],
+          'values': ['sifts'],
+          'text': [
+            "Residue-level mapping between UniProt and PDB entries in XML format.",
+          ]
+        }
+      ]
+    },
+  ]
   constructor() {
   }
 

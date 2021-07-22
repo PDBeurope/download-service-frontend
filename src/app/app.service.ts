@@ -40,7 +40,7 @@ export class DownloadService {
   //}
 
   postFileDownloadServer(apiType: string, fdsType: string, fdsConfig: string): Observable<any> {
-    return this.http.post<any>(`${this.fileDownloadUrl}${apiType}/${fdsType}`, fdsConfig, this.httpOptions)
+    return this.http.post<any>(`${this.fileDownloadUrl}/${apiType}/${fdsType}`, fdsConfig, this.httpOptions)
       .pipe(
         tap(
           data => {
